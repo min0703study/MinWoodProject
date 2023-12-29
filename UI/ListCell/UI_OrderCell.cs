@@ -22,7 +22,7 @@ public class UI_OrderCell : UI_Base
 	Button deliveryButton;
 	
 	private void Awake() {
-		//deliveryButton.onClick.AddListener(OnClickDeliveryButton);
+		deliveryButton.onClick.AddListener(OnClickDeliveryButton);
 	}
 	
 	public void SetInfo(int orderId)
@@ -38,16 +38,22 @@ public class UI_OrderCell : UI_Base
 		TableData.Item orderItem = ItemTable.Instance.GetItemDataByItemId(order.ItemId);
 		Sprite itemSprite = ResourceManager.Instance.Load<Sprite>(orderItem.SpriteName);
 		itemIcon.sprite = itemSprite;
+		itemIcon.SetNativeSize();
+		
+		rewardGold.text = order.RewardGold.ToString();
 		
 		//Npc 정보 매핑
 		TableData.NPC customerNpc = NPCTable.Instance.GetNPCTableDataById(order.NpcId);
-		customerName.text = customerNpc.Name;
+		customerName.text = $"{customerNpc.Name}의 주문 요청";
 		
 		bool flag = false;
+		
+		int inventoryAmount = InventoryServerData.Instance.GetItemAmount(orderItem.Id);
+
 		//버튼 활상화 확인
 		foreach(var area in MyShopServerData.Instance.SellingItemAreas)
 		{
-			if(area.isAddedItem && area.ItemId == orderItem.Id)
+			if(inventoryAmount > 0)
 			{
 				deliveryButtonText.text = "배송 가능";
 				deliveryButton.interactable = true;
@@ -67,12 +73,15 @@ public class UI_OrderCell : UI_Base
 	public void OnClickDeliveryButton() 
 	{
 		ServerData.Order order = OrderListServerData.Instance.GetOrderDataById(OrderId);
+		TableData.Item orderItem = ItemTable.Instance.GetItemDataByItemId(order.ItemId);
 		
-		int bozagiIndex = MyShopServerData.Instance.FindBojagiIndexByItemId(order.ItemId);
+		InventoryServerData.Instance.RemoveItem(orderItem.Id, 1);
+					
+		var currentStoryQuestIndex = QuestServerData.Instance.CurrentStoryQuest.StoryQuestIndex;
+		var storyQuest = StoryQuestTable.Instance.GetStoryQuestByIndex(currentStoryQuestIndex);
 		
-		var cat = MapManager.Instance.Map.GetMapEntityGO<CatController>();
-		(cat as CatController).Deliver(bozagiIndex);
-		
-		//GameManager.Instance.Player.AddCoin(order.RewardGold);
+		GameManager.Instance.Player.AddItem(storyQuest.RewardItemId, storyQuest.RewardItemAmount);
+			
+		SoundManager.Instance.PlayQuestComplete();
 	}
 }

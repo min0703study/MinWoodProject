@@ -31,8 +31,6 @@ public class UI_LobbyScene : UI_SceneBase
 	[Header("Bottom Panel")]
 	[SerializeField]
 	Toggle inventoryToggle;
-	[SerializeField]
-	Toggle orderManagerToggle;
 	#endregion
 	
 	[SerializeField]
@@ -49,7 +47,6 @@ public class UI_LobbyScene : UI_SceneBase
 	protected override void Init()
 	{	
 		inventoryToggle.onValueChanged.AddListener(OnValueChnagedInventoryToggle);
-		orderManagerToggle.onValueChanged.AddListener(OnValueChnagedOrderManagerToggle);
 		worldMapButton.onClick.AddListener(OnClickWorldMapButton);
 		
 		uiStoryQuestButton.OnRewardReceived += StartStoryQuestRewardAnimation;
@@ -84,16 +81,6 @@ public class UI_LobbyScene : UI_SceneBase
 		{
 			var popup = UIManager.Instance.ShowPopupUI<UI_InventoryPopup>();
 			popup.OnClosedPopup += () => inventoryToggle.isOn = false;
-		}
-	}
-	
-	private void OnValueChnagedOrderManagerToggle(bool isOn) 
-	{
-		SoundManager.Instance.PlayButtonPressSound();
-		if(isOn) 
-		{
-			var popup = UIManager.Instance.ShowPopupUI<UI_OrderManagerPopup>();
-			popup.OnClosedPopup += () => orderManagerToggle.isOn = false;
 		}
 	}
 	

@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
-using System.Linq;
+
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
 
 public class LobbyScene : BaseScene
 {	
-	public CinemachineVirtualCamera HomeVirtualamera, ShopVitualCamera, BackyardVirtualCamera, WorkplaceVirtualCamera;
+	public CinemachineVirtualCamera MainVirtualCamera;
 	public Camera MainCamera;
 	
 	protected override void Init()
@@ -19,41 +18,20 @@ public class LobbyScene : BaseScene
 
 		// Open Scene UI 
 		UIManager.Instance.OpenSceneUI<UI_LobbyScene>();
-
 		UIManager.Instance.OpenJoystickUI<UI_Joystick>();
 
 		// Open Map
 		MapManager.Instance.LoadOrGenerateMap(Define.Map.Home, 106010001);
 		
-		// VCamera Setting
-		HomeVirtualamera.m_Follow = GameManager.Instance.Player.gameObject.transform;
-		ShopVitualCamera.m_Follow = GameManager.Instance.Player.gameObject.transform;
-		BackyardVirtualCamera.m_Follow = GameManager.Instance.Player.gameObject.transform;
-		WorkplaceVirtualCamera.m_Follow = GameManager.Instance.Player.gameObject.transform;
-		
 		CinemachineManager.Instance.MainCamera = MainCamera;
-		CinemachineManager.Instance.AddVirtualCamera("Home", HomeVirtualamera);
-		CinemachineManager.Instance.AddVirtualCamera("Shop", ShopVitualCamera);
-		CinemachineManager.Instance.AddVirtualCamera("Backyard", BackyardVirtualCamera);
-		CinemachineManager.Instance.AddVirtualCamera("Workplace", WorkplaceVirtualCamera);
-		
-		CinemachineManager.Instance.ActivateCamera("Home");
+		CinemachineManager.Instance.AddVirtualCamera("Main", MainVirtualCamera);
+		CinemachineManager.Instance.ActivateCamera("Main");
+		CinemachineManager.Instance.SetActiveCameraTarget(GameManager.Instance.Player.transform);
 		
 		SoundManager.Instance.Play(SoundManager.SoundType.Bgm, "Sound_LobbyBGM");
 
 		MapEntity orderPos = MapManager.Instance.Map.GetMapEntityGO<CatCarpet>();
 		MapManager.Instance.Map.SpawnCat(orderPos.CenterPos);
-		
-		Bind();
-	}
-	
-	private void Bind() 
-	{
-		//MyShopServerData.Instance.OnShopDataChanged += ChangedShopData;
-	}
-	
-	private void OnDestroy() {
-		//MyShopServerData.Instance.OnShopDataChanged -= ChangedShopData;
 	}
 	
 	public void Update() 

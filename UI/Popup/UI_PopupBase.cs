@@ -22,8 +22,7 @@ public class UI_PopupBase : UI_Base
 	
 	public void PopupOpenAnimation(GameObject contentObject)
 	{
-		contentObject.transform.localScale = new Vector3(0.8f,0.8f,1);
-		contentObject.transform.DOScale(10f, 0.1f).SetEase(Ease.InOutBack).SetUpdate(true);
+		contentObject.transform.localScale = new Vector3(0f, 0f, 1f);
+		contentObject.transform.DOScale(new Vector3(1f, 1f, 1f), 0.2f).SetEase(Ease.InSine);
 	}
-
 }

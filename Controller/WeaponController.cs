@@ -38,10 +38,10 @@ public class WeaponController : BaseController
 	
 	protected void OnDrawGizmos() 
 	{
-		if(UnityEditor.Selection.activeObject == gameObject)
-		{
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireSphere(transform.position, attackRange);
-		}    
+		// if(UnityEditor.Selection.activeObject == gameObject)
+		// {
+		// 	Gizmos.color = Color.yellow;
+		// 	Gizmos.DrawWireSphere(transform.position, attackRange);
+		// }    
 	}
 }

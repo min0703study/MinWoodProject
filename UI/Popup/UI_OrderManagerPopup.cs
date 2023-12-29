@@ -9,9 +9,13 @@ public class UI_OrderManagerPopup : UI_PopupBase
 	[SerializeField]
 	GameObject deliveryListGO;
 	
+	[SerializeField]
+	GameObject contentPanel;
+	
 	protected override void Init() 
 	{
 		backgroundButton.onClick.AddListener(ClosePopupUI);
+		
 		Util.DestroyChilds(deliveryListGO);
 		
 		if(OrderListServerData.Instance.Orders.Count <= 0) 
@@ -24,6 +28,10 @@ public class UI_OrderManagerPopup : UI_PopupBase
 			var deliveryCell = UIManager.Instance.MakeSubItem<UI_OrderCell>(deliveryListGO.transform);
 			deliveryCell.SetInfo(order.OrderId);
 		}
+	}
+	
+	private void Start() {
+		PopupOpenAnimation(contentPanel);
 	}
 	
 	private void Update() {

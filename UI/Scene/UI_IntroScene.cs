@@ -1,41 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
+using TMPro;
 
 public class UI_IntroScene : UI_SceneBase
 {	
 	[SerializeField]
-	private Slider loadingSlider;
+	Slider loadingSlider;
 	
 	[SerializeField]
-	private Button startGameButton;
-	
-	public bool IsReadyGame { get; private set;} = false;
+	TextMeshProUGUI loadingValueText;
 	
 	protected override void Init()
 	{
 		base.Init();
-		
-		startGameButton.onClick.AddListener(OnClickStartGameButton);
 	}
 	
 	private void Start() {
 		ResourceManager.Instance.LoadAllAsync("PreLoad", (key, count, totalCount) =>
 		{
 			loadingSlider.value = (float)count/totalCount;
+			loadingValueText.text = $"{loadingSlider.value * 100}%";
 			if (count == totalCount)
 			{
-				IsReadyGame = true;
-				startGameButton.gameObject.SetActive(true);
+				CompleteLoading();
 			}
 		});
 	}
 	
-	private void OnClickStartGameButton() 
+	private void CompleteLoading() 
 	{
 		SoundManager.Instance.Play(SoundManager.SoundType.Effect, "Sound_IntroOkButton");
 		
 		TableLoader.Instance.Load();
+		
 		GameManager.Instance.GeneratePlayer(new Vector3(0,0,0));
 		
 		SceneChangeManager.Instance.LoadScene(Define.Scene.LobbyScene);

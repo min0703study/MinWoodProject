@@ -47,9 +47,9 @@ public class CinemachineManager : BaseManager<CinemachineManager>
 		virtualCamera.Camera.Priority = 10;
 	}
 	
-	public void SetTarget(GameObject target)
+	public void SetActiveCameraTarget(Transform transform)
 	{
-		ActiveCameraStruct.Camera.m_Follow = target.transform;
+		ActiveCameraStruct.Camera.m_Follow = transform;
 	}
 	
 	public void SwitchCamera(string toCameraKey)

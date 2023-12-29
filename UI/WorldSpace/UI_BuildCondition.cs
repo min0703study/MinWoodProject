@@ -54,7 +54,7 @@ public class UI_BuildCondition : UI_WordSpaceBase
 	private void OnClickAccessConditionButton() 
 	{
 	
-		if(building.BuildingInfo.IsConstructionComplete) 
+		if(!building.BuildingInfo.IsConstructionComplete) 
 		{
 			StartCoroutine(CoUsingPlayerItem());
 		} else 
@@ -104,7 +104,7 @@ public class UI_BuildCondition : UI_WordSpaceBase
 		
 		building.BuildComplete();
 		CinemachineManager.Instance.SwitchFocusForSeconds(this.building.transform.position);
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(2.5f);
 		
 		building.ActiveInteractButton();
 		

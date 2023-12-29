@@ -11,6 +11,8 @@ public class UserServerData : BaseData<UserServerData>
 	public int HpLevel { get; private set; }
 	public float HpValue { get; private set; }
 	public int EXP { get; private set; }
+	public float CriRate { get; private set; }
+	public float CriDamage { get; private set; }
 	public int Level {get; private set; }
 	public int Coin { get; private set; }
 	public int Dia { get; private set; }
@@ -23,9 +25,11 @@ public class UserServerData : BaseData<UserServerData>
 		
 		AtkLevel = 1;
 		Level = 1;
-		AtkValue = 50;
+		AtkValue = 30;
 		HpLevel = 1;
 		HpValue = 100;   
+		CriRate = 20f;
+		CriDamage = 2f;
 		EXP = 0;
 		Coin = 0;
 		Dia = 0;

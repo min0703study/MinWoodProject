@@ -5,6 +5,8 @@ using UnityEngine;
 
 using MonsterState = Define.MonsterState;
 
+using Random = UnityEngine.Random;
+
 public class MonsterController : UnitController
 {
 	public TableData.Monster MonsterTableData { get; private set; }
@@ -135,11 +137,11 @@ public class MonsterController : UnitController
 
 		float totalDamage = power;
 		bool isCritical = false;
-		// if (Random.Range(0, 1000) <= (UserServerData.Instance.CriRate * 10))
-		// {
-		// 	totalDamage  = power * UserServerData.Instance.CriDamage;
-		// 	isCritical = true;
-		// }
+		if (Random.Range(0, 1000) <= (UserServerData.Instance.CriRate * 10))
+		{
+			totalDamage  = power * UserServerData.Instance.CriDamage;
+			isCritical = true;
+		}
 	
 		Hp -= totalDamage;
 		
@@ -215,15 +217,15 @@ public class MonsterController : UnitController
 	
 	protected void OnDrawGizmos() 
 	{
-		if(UnityEditor.Selection.activeObject == gameObject)
-		{
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireSphere(transform.position, chaseDistance);
+		// if(UnityEditor.Selection.activeObject == gameObject)
+		// {
+		// 	Gizmos.color = Color.yellow;
+		// 	Gizmos.DrawWireSphere(transform.position, chaseDistance);
 
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(transform.position, attackDistance);
+		// 	Gizmos.color = Color.red;
+		// 	Gizmos.DrawWireSphere(transform.position, attackDistance);
 			
-			Gizmos.color = Color.white;
-		}    
+		// 	Gizmos.color = Color.white;
+		// }    
 	}
 }

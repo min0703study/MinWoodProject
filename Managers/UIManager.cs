@@ -52,7 +52,7 @@ public class UIManager : BaseManager<UIManager>
 		T popup = Util.GetOrAddComponent<T>(go);
 		popupStack.Push(popup);
 
-		go.transform.SetParent(Root.transform);
+		go.transform.SetParent(Root.transform, false);
 
 		return popup;
 	}

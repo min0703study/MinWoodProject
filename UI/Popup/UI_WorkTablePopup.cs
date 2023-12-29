@@ -25,6 +25,9 @@ public class UI_WorkTablePopup : UI_PopupBase
 	
 	UI_CraftItemCell selectedCraftableItemCell = null;
 	
+	[SerializeField]
+	GameObject contentPanel;
+	
 	protected override void Init() 
 	{
 		base.Init();
@@ -34,6 +37,10 @@ public class UI_WorkTablePopup : UI_PopupBase
 		
 		refreshCraftItemList();
 		refreshSelectedItemInfo();
+	}
+	
+	private void Start() {
+		PopupOpenAnimation(contentPanel);
 	}
 	
 	private void refreshSelectedItemInfo() 

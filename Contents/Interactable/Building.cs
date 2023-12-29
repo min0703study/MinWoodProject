@@ -35,15 +35,25 @@ public class Building : MapEntity, IInteractable
 		if(MyShopServerData.Instance.GetBuildingByBuildingId(buildingInfo.BuildingId) == null) 
 		{
 			MyShopServerData.Instance.AddBuilding(buildingInfo);
-		};
+		} else 
+		{
+			buildingInfo = MyShopServerData.Instance.GetBuildingByBuildingId(buildingInfo.BuildingId);
+		}
 		
 		uiBuildCondition = UIManager.Instance.MakeWorldSpaceUI<UI_BuildCondition>();
 		uiBuildCondition.SetInfo(worldSpaceTransform, this);
 		
 		uiInteractButton = UIManager.Instance.MakeWorldSpaceUI<UI_InteractButton>();
 		uiInteractButton.SetInfo(worldSpaceTransform, this);
-		uiInteractButton.SetActive(false);
-
+		uiInteractButton.SetActive(false);	
+			
+		if(buildingInfo.IsConstructionComplete) 
+		{
+			builtGO.SetActive(true);
+			buildingGO.SetActive(false);
+			uiBuildCondition.gameObject.SetActive(false);
+			uiInteractButton.SetActive(true);	
+		}
 	}
 	
 	public virtual void BuildComplete() 

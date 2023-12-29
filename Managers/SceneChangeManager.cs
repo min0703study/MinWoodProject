@@ -11,12 +11,16 @@ public class SceneChangeManager : BaseManager<SceneChangeManager>
 			MapManager.Instance.ChangeMap();
 		}
 		
-		var sceneChangePopup = UIManager.Instance.ShowPopupUI<UI_SceneChangePopup>();	
-		sceneChangePopup.SetInfo(loadScene, () =>
+		var sceneChangePopupGO = ResourceManager.Instance.Instantiate("SceneChangePopupGroup");	
+		var sceneChangePopup = Util.GetOrAddComponent<SceneChangePopupGroup>(sceneChangePopupGO);
+		
+		DontDestroyOnLoad(sceneChangePopup);
+		
+		sceneChangePopup.SetInfo(() =>
 		{
-			//ResourceManager.Instance.Destroy(UIManager.Instance.CurSceneUI);
 			PoolManager.Instance.Clear();
 			SceneManager.LoadScene(System.Enum.GetName(typeof(Define.Scene), loadScene));
+			sceneChangePopup.SceneChangedSuccess();
 		});
    	}
 }

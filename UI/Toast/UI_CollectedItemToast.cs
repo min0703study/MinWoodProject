@@ -7,7 +7,6 @@ using TMPro;
 using TableData;
 using System;
 using DG.Tweening;
-using Mono.Cecil;
 
 public class UI_CollectedItemToast : UI_ToastBase
 {

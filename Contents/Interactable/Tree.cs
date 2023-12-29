@@ -49,12 +49,25 @@ public class Tree : EnvEntity
 			
 			
 		CurrentState = EnvEntityState.OnDamaged;
-		curHP -= power;
+		
+		float totalDamage = power;
+		bool isCritical = false;
+		if (Random.Range(0, 1000) <= (UserServerData.Instance.CriRate * 10))
+		{
+			totalDamage  = power * UserServerData.Instance.CriDamage;
+			isCritical = true;
+		}
+		
+		curHP -= totalDamage;
 		
 		progressBar.SetActive(true);
 		progressBar.SetProgressBarValue(EnvEntityTableData.MaxHp, curHP);
+		
+		MapManager.Instance.Map.ShowDamageFont(CenterPos, totalDamage, 0, transform, isCritical);
 
 		if (curHP <= 0) {
+			MapManager.Instance.Map.ShowBrokenEffect(CenterPos, transform);
+			
 			progressBar.SetActive(false);
 			treeGrowthGO.SetActive(false);
 			treeChoppedGO.SetActive(true);
@@ -74,7 +87,7 @@ public class Tree : EnvEntity
 	public void CoOnHitting() {
 		Sequence dotweenSequence = DOTween.Sequence();
 		dotweenSequence.Append(spriteRenderer.material.DOFloat(1.0f, "_Transparency", 0.1f));
-		dotweenSequence.Append(treeGrowthGO.transform.DOScale(treeGrowthGO.transform.localScale * 0.95f, 0.1f));
+		dotweenSequence.Insert(0, treeGrowthGO.transform.DOScale(treeGrowthGO.transform.localScale * 0.9f, 0.1f));
 		dotweenSequence.SetEase(Ease.InOutBounce);
 		dotweenSequence.SetLoops(2, LoopType.Yoyo);
 	}
@@ -98,5 +111,7 @@ public class Tree : EnvEntity
 		CurrentState = EnvEntityState.Idle;
 		
 		interactionLocked = false;
+		
+		curHP = EnvEntityTableData.MaxHp;
 	}
 }

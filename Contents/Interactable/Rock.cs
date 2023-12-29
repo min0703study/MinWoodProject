@@ -37,7 +37,7 @@ public class Rock : EnvEntity
 		GameManager.Instance.Player.MineNodes(this);
 	}
 	
-	public override void Hit(float power) {
+	public override void Hit(float power) {		
 		if(CurrentState == EnvEntityState.OnDamaged)
 			return;
 			
@@ -49,15 +49,13 @@ public class Rock : EnvEntity
 		progressBar.SetProgressBarValue(EnvEntityTableData.MaxHp, curHP);
 
 		if (curHP <= 0) {
-			progressBar.SetActive(false);
-			
-		MapManager.Instance.Map.ShowBrokenEffect(CenterPos, transform);
-		CurrentState = EnvEntityState.Harvested;
-		MapManager.Instance.Map.GenerateDropItem(gameObject.transform.position, EnvEntityTableData.DropItemId);
-		MapManager.Instance.Map.DestroyMapEntity(this);
+			MapManager.Instance.Map.ShowBrokenEffect(CenterPos, transform);
+			CurrentState = EnvEntityState.Harvested;
+			MapManager.Instance.Map.GenerateDropItem(gameObject.transform.position, EnvEntityTableData.DropItemId);
+			MapManager.Instance.Map.DestroyMapEntity(this);
 		}
 		else 
-		{	
+		{			
 			StartCoroutine(CoFlash());		
 		}
 	}

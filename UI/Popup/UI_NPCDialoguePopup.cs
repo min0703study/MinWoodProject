@@ -28,10 +28,11 @@ public class UI_NPCDialoguePopup : UI_PopupBase
 	{
 		this.customer = customer;
 		
-		var orderItem = ItemTable.Instance.GetItemDataByItemId(103010011);
+		var orderItem = ItemTable.Instance.GetItemDataByItemId(103010017);
 		
 		Sprite itemSprite = ResourceManager.Instance.Load<Sprite>(orderItem.SpriteName);
 		orderItemIcon.sprite = itemSprite;
+		orderItemIcon.SetNativeSize();
 		
 		rewardCoinValue.text = 30.ToString();
 		
@@ -40,7 +41,7 @@ public class UI_NPCDialoguePopup : UI_PopupBase
 	
 	public void OnAcceptButton() 
 	{
-		OrderListServerData.Instance.AddOrder(customer.NPCTableData.NPCId, 103010011, 30, 100);
+		OrderListServerData.Instance.AddOrder(customer.NPCTableData.NPCId, 103010017, 30, 100);
 		customer.PlayerAcceptedOrder();
 		ClosePopupUI();
 	}

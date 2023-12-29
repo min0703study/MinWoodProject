@@ -43,13 +43,13 @@ public class EnvEntity : MapEntity, IInteractable
 	
 	protected void OnDrawGizmos() 
 	{
-		if(UnityEditor.Selection.activeObject == gameObject)
-		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(transform.position, TargetingRange);
+		// if(UnityEditor.Selection.activeObject == gameObject)
+		// {
+		// 	Gizmos.color = Color.red;
+		// 	Gizmos.DrawWireSphere(transform.position, TargetingRange);
 			
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireSphere(transform.position, InteractableRange);
-		}    
+		// 	Gizmos.color = Color.yellow;
+		// 	Gizmos.DrawWireSphere(transform.position, InteractableRange);
+		// }    
 	}
 }

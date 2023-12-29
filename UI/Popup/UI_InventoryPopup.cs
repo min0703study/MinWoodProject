@@ -12,7 +12,7 @@ public class UI_InventoryPopup : UI_PopupBase
 	private GameObject itemListGO;
 	
 	[SerializeField]
-	private UI_CustomToggle itemToggle, craftEntityToggle;
+	private GameObject contentPanel;
 
 	protected override void Init()
 	{
@@ -21,9 +21,10 @@ public class UI_InventoryPopup : UI_PopupBase
 		RefreshInventoryList();
 	
 		backgroundButton.onClick.AddListener(ClosePopupUI);
-		
-		itemToggle.AddOnValueChangedListener(ItemToggleValueChanged);
-		craftEntityToggle.AddOnValueChangedListener(craftEntityToggleValueChanged);
+	}
+	
+	private void Start() {
+		PopupOpenAnimation(contentPanel);
 	}
 	
 	private void RefreshInventoryList() 
@@ -36,19 +37,4 @@ public class UI_InventoryPopup : UI_PopupBase
 			inventoryCell.SetInfo(item.ItemId, item.Amount);
 		}
 	}
-	
-	private void ItemToggleValueChanged(bool isOn) 
-	{
-		SoundManager.Instance.PlayButtonPressSound();
-		itemToggle.SwitchToggle(isOn);
-	}
-
-	private void craftEntityToggleValueChanged(bool isOn) 
-	{
-		SoundManager.Instance.PlayButtonPressSound();
-		craftEntityToggle.SwitchToggle(isOn);
-	}
-	
-	
-
 }
