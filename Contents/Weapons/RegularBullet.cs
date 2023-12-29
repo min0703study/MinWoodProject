@@ -31,7 +31,7 @@ public class RegularBullet : Projectile
 
 		if (collisionData.gameObject.layer == LayerMask.NameToLayer("Monster"))
 		{	
-			unit?.OnDamaged(GameManager.Instance.Player, UserServerData.Instance.AtkValue);
+			unit?.OnDamaged(GameManager.Instance.Player, 20);
 			Destroy(gameObject);
 		}
 		

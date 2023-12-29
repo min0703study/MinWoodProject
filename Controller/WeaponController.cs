@@ -6,7 +6,11 @@ public class WeaponController : BaseController
 {	
 	public void SetActive (bool isActive) => gameObject.SetActive(isActive);
 	
+	[SerializeField]
 	protected float weaponCooldown = 1.3f;
+	
+	[SerializeField]
+	protected float startAttackTime = 0.2f;
 	
 	[SerializeField]
 	protected float attackRange = 3.0f;

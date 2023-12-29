@@ -40,6 +40,7 @@ public class UI_CraftItemCell : UI_Base
 	
 	public void OnCellButtonClick() 
 	{
+		SoundManager.Instance.PlayButtonPressSound();
 		CellButtonClicked?.Invoke(this);
 	}
 	

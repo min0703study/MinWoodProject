@@ -41,6 +41,7 @@ public class UI_NPCDialoguePopup : UI_PopupBase
 	
 	public void OnAcceptButton() 
 	{
+		SoundManager.Instance.PlayButtonPressSound();
 		OrderListServerData.Instance.AddOrder(customer.NPCTableData.NPCId, 103010017, 30, 100);
 		customer.PlayerAcceptedOrder();
 		ClosePopupUI();

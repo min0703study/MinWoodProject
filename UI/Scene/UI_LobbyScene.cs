@@ -87,7 +87,7 @@ public class UI_LobbyScene : UI_SceneBase
 	private void OnClickWorldMapButton() 
 	{
 		SoundManager.Instance.PlayButtonPressSound();
-		var popup = UIManager.Instance.ShowPopupUI<UI_WorldMapPopup>();
+		SceneChangeManager.Instance.LoadScene(Define.Scene.DungeonScene);
 	}
 	
 	private void RefreshAll() 

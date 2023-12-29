@@ -87,6 +87,7 @@ public class UI_DungeonScene : UI_SceneBase
 	
 	private void weaponToggleValueChanged(bool isOn) 
 	{
+		SoundManager.Instance.PlayButtonPressSound();
 		if(isOn) 
 		{
 			GameManager.Instance.Player.ChangeWeaponMode(Define.WeaponMode.Sword);
@@ -103,6 +104,7 @@ public class UI_DungeonScene : UI_SceneBase
 	public void ClearDungeon() 
 	{
 		var popup = UIManager.Instance.ShowPopupUI<UI_DungeonClearPopup>();
+		popup.OnClosedPopup += ()=>SceneChangeManager.Instance.LoadScene(Define.Scene.LobbyScene);
 	}
 
 }

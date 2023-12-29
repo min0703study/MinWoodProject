@@ -164,4 +164,10 @@ public class SoundManager: BaseManager<SoundManager>
 		Play(SoundType.Effect, "PopupClose_Common");
 	}
 	
+	public void PlaySkillSound()
+	{
+		Play(SoundType.Effect, "Sound_SwordSkil");
+	}
+
+	
 }

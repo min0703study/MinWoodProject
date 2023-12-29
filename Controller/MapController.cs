@@ -140,7 +140,8 @@ public class MapController : BaseController
 				{
 					if(monsterSpawnSpotDict.TryGetValue(mapMonsterSpawn.SpawnSpotIndex, out Transform spotTransform)) 
 					{
-						GenerateMonster(spotTransform.position, mapMonsterSpawn.MonsterId);
+						Vector3 randomPosition = new Vector3(Random.Range(-1.0f, 1.0f) + spotTransform.position.x, Random.Range(-1.0f, 1.0f) + spotTransform.position.y, 0);
+						GenerateMonster(randomPosition, mapMonsterSpawn.MonsterId);
 					}
 					
 					spawnCount++;

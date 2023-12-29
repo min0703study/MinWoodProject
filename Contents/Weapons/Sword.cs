@@ -11,12 +11,13 @@ public class Sword : WeaponController
 	{
 		base.Init();
 		
-		weaponCooldown = 1.4f;
+		weaponCooldown = 1.2f;
 		
 		animator = GetComponent<Animator>();	
 		col2D = GetComponent<Collider2D>();
 		
 		col2D.enabled = false;
+		isAttacking = false;
 	}
 
 	// Update is called once per frame
@@ -51,11 +52,7 @@ public class Sword : WeaponController
 			
 		isAttacking = true;
 		col2D.enabled = true;
-		
-		// fire our sword animation
-		// animator.ResetTrigger("ToEntryTrigger");
-		// animator.SetTrigger("ToAttackTrigger");
-		
+
 		StartCoroutine(CoOnCooldown());
 	}
 	
@@ -65,7 +62,8 @@ public class Sword : WeaponController
 
 		if (collisionData.gameObject.layer == LayerMask.NameToLayer("Monster"))
 		{
-			unit?.OnDamaged(GameManager.Instance.Player, UserServerData.Instance.AtkValue);
+			if(unit)
+			unit?.OnDamaged(GameManager.Instance.Player, UserServerData.Instance.AtkValue, 1);
 		}
 	}
 	
@@ -83,12 +81,10 @@ public class Sword : WeaponController
 		
 	public IEnumerator CoOnCooldown() 
 	{
-		yield return new WaitForSeconds(0.2F);
+		yield return new WaitForSeconds(startAttackTime);
 		col2D.enabled = true;
-		Debug.Log("cooldown start");
 		yield return new WaitForSeconds(weaponCooldown);
 		col2D.enabled = false;
-		Debug.Log("cooldown end");
 		yield return new WaitForSeconds(0.1f);
 		isAttacking = false; 
 		

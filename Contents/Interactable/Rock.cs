@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 using EnvEntityState = Define.EnvEntityState;
@@ -43,10 +44,21 @@ public class Rock : EnvEntity
 			
 			
 		CurrentState = EnvEntityState.OnDamaged;
-		curHP -= power;
+		
+		float totalDamage = power;
+		bool isCritical = false;
+		if (Random.Range(0, 1000) <= (UserServerData.Instance.CriRate * 10))
+		{
+			totalDamage  = power * UserServerData.Instance.CriDamage;
+			isCritical = true;
+		}
+		
+		curHP -= totalDamage;
 		
 		progressBar.SetActive(true);
 		progressBar.SetProgressBarValue(EnvEntityTableData.MaxHp, curHP);
+
+		MapManager.Instance.Map.ShowDamageFont(CenterPos, totalDamage, 0, transform, isCritical);
 
 		if (curHP <= 0) {
 			MapManager.Instance.Map.ShowBrokenEffect(CenterPos, transform);
@@ -56,19 +68,17 @@ public class Rock : EnvEntity
 		}
 		else 
 		{			
-			StartCoroutine(CoFlash());		
+			CoOnHitting();
+			CurrentState = EnvEntityState.Idle;
 		}
 	}
-	
-	protected IEnumerator CoFlash()
-	{
-		spriteRenderer.material.SetInt("_SolidColorMode", 1);
-		yield return new WaitForSeconds(0.1f);
-		spriteRenderer.material.SetInt("_SolidColorMode", 0);
-		yield return new WaitForSeconds(0.1f);
-		spriteRenderer.material.SetInt("_SolidColorMode", 1);
-		yield return new WaitForSeconds(0.1f);
-		spriteRenderer.material.SetInt("_SolidColorMode", 0);
-		CurrentState = EnvEntityState.Idle;
+
+	public void CoOnHitting() {
+		Sequence dotweenSequence = DOTween.Sequence();
+		dotweenSequence.Append(spriteRenderer.material.DOFloat(1.0f, "_Transparency", 0.1f));
+		dotweenSequence.Insert(0, transform.DOScale(transform.localScale * 0.9f, 0.1f));
+		dotweenSequence.SetEase(Ease.InOutBounce);
+		dotweenSequence.SetLoops(2, LoopType.Yoyo);
 	}
+	
 }

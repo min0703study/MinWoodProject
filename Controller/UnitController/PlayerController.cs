@@ -153,6 +153,10 @@ public class PlayerController : UnitController
 			if(targetMonster == null)
 				return;
 				
+			if(!weaponDict[weaponMode].gameObject.activeSelf) 
+			{
+				weaponDict[weaponMode].BeginWeaponUsage();	
+			}
 			var dirVector = targetMonster.transform.position - transform.position;
 			if(dirVector.magnitude < weaponDict[weaponMode].AttackRange) 
 			{
@@ -236,7 +240,7 @@ public class PlayerController : UnitController
 		MapManager.Instance.Map.SetTargetNeareastInteractableEntity();	
 	}
 
-	public override void OnDamaged(BaseController attacker, float damage = 1, bool knockBack = false)
+	public override void OnDamaged(BaseController attacker, float damage = 1, int knockBackLevel = 0)
 	{
 		if(CurrentState == PlayerState.OnDamaged)
 			return;
@@ -304,6 +308,7 @@ public class PlayerController : UnitController
 	
 	public void SwingSwordSkill() 
 	{	
+		SoundManager.Instance.PlaySkillSound();
 		activeCoroutine = StartCoroutine(CoSwingSwordSkill());
 	}
 	
@@ -456,7 +461,7 @@ public class PlayerController : UnitController
 		
 		activeCoroutine = null;
 	}
-	int i = 0;
+
 	private IEnumerator CoHarvesting(Define.ToolType useToolType, EnvEntity envEntity)
 	{
 
@@ -510,5 +515,11 @@ public class PlayerController : UnitController
 	public void PlayFootStepSound() 
 	{
 		SoundManager.Instance.Play(SoundManager.SoundType.Effect, "Sound_FootStep");
+	}
+	
+	
+	public void PlaySwingSound() 
+	{
+		SoundManager.Instance.Play(SoundManager.SoundType.Effect, "Sound_SwordSwing");
 	}
 }

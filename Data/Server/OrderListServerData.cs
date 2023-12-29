@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 using Random = System.Random;
 namespace ServerData
 {
@@ -49,8 +49,17 @@ public class OrderListServerData : BaseTable<OrderListServerData>
 		}
 	}
 	
-	public void DeleteOrder(int npcId, int itemId, int rewardGold, int rewardExp)
+	public void DeleteOrder(int orderId)
 	{
+		foreach(var order in Orders) 
+		{
+			if(order.OrderId == orderId) 
+			{
+				Orders.Remove(order);
+				OnChangedOrderListData?.Invoke();
+				break;
+			}
+		}
 	}
 	
 	public ServerData.Order GetOrderDataById(int orderId) 

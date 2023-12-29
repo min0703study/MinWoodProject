@@ -66,7 +66,7 @@ public class UnitController : MapEntity
 		gameObject.transform.localScale = currentScale;
 	}
 
-	public virtual void OnDamaged(BaseController attacker, float damage = 0, bool knockBack = false)
+	public virtual void OnDamaged(BaseController attacker, float damage = 0, int knockBackLevel = 1)
 	{
 		Hp -= damage;
 	}

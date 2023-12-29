@@ -50,6 +50,17 @@ public class MonsterController : UnitController
 	{
 		base.UpdatePosition();
 		base.UpdateSpriteDir();
+		
+		if(IsFlipX == true) 
+		{
+			Vector3 currentScale = progressBar.transform.localScale;
+			if(currentScale.x > 0) 
+			{
+				currentScale.x = currentScale.x * -1;
+				progressBar.transform.localScale = currentScale;
+			}
+
+		}
 
 		switch (CurrentState)
 		{
@@ -128,9 +139,9 @@ public class MonsterController : UnitController
 	}
 
 	//공격 받음
-	public override void OnDamaged(BaseController attacker, float power = 1, bool knockBack = false)
+	public override void OnDamaged(BaseController attacker, float power = 1, int knockBackLevel = 0)
 	{
-		if(CurrentState == MonsterState.OnDamaged) 
+		if(CurrentState == MonsterState.OnDamaged || CurrentState == MonsterState.Dead) 
 			return;
 		
 		CurrentState = MonsterState.OnDamaged;
@@ -157,7 +168,7 @@ public class MonsterController : UnitController
 			StartCoroutine(CoDie());
 		} else 
 		{
-			StartCoroutine(CoOnDamaged(attacker, totalDamage, knockBack));
+			StartCoroutine(CoOnDamaged(attacker, totalDamage, knockBackLevel));
 		}
 	}
 
@@ -172,15 +183,12 @@ public class MonsterController : UnitController
 		this.PerformAttack(target);
 	}
 	
-	IEnumerator CoOnDamaged(BaseController attacker, float damage = 1, bool knockBack = false)
+	IEnumerator CoOnDamaged(BaseController attacker, float damage = 1, int knockBackLevel = 0)
 	{
 		StartCoroutine(CoFlash());
-		if(knockBack) 
-		{
-			yield return StartCoroutine(CoKnockBack(attacker.transform, 2f));
-		}
+		yield return StartCoroutine(CoKnockBack(attacker.transform, 2f * knockBackLevel));
 		
-		CurrentState = MonsterState.Chase;
+		StartCoroutine(CoOnCooldown());
 	}
 
 	IEnumerator CoDie()
@@ -213,6 +221,12 @@ public class MonsterController : UnitController
 	public void PlayDyingSound() 
 	{
 		SoundManager.Instance.Play(SoundManager.SoundType.Effect, "Sound_SlimeDie");
+	}
+	
+	private IEnumerator CoOnCooldown() 
+	{
+		yield return new WaitForSeconds(1.0f);
+		CurrentState = MonsterState.Chase;
 	}
 	
 	protected void OnDrawGizmos() 

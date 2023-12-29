@@ -154,7 +154,7 @@ public class CustomerController : UnitController, IInteractable
 		this.moveDir = Vector3.zero;
 		CurrentState = CustomerState.WaitToOrder;
 		yield return new WaitForSeconds(1.0f);
-		speechBalloon.ShowSpeechBallon(Define.SpeechBalloonState.WaitOrder);
+		//speechBalloon.ShowSpeechBallon(Define.SpeechBalloonState.WaitOrder);
 		uiInteractButton.SetActive(true);
 	}
 	
@@ -170,6 +170,7 @@ public class CustomerController : UnitController, IInteractable
 	
 	private IEnumerator CoPlayerRefuseOrder()
 	{
+		uiInteractButton.SetActive(false);
 		yield return new WaitForSeconds(1.0f);
 		speechBalloon.ShowSpeechBallon(Define.SpeechBalloonState.Sad);
 		yield return new WaitForSeconds(3.0f);

@@ -27,9 +27,11 @@ public class UI_SkillCell : MonoBehaviour
 	private void Awake()
 	{
 		button = GetComponent<Button>();
-		button.onClick.AddListener(OnClickCellButton);
-
-		button.interactable = true;
+		if(button != null) 
+		{
+			button.onClick.AddListener(OnClickCellButton);	
+			button.interactable = true;
+		}
 	}
 
 	public void StartCooltime()

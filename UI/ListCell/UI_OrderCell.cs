@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Random = UnityEngine.Random;
 
 public class UI_OrderCell : UI_Base
 {
@@ -21,6 +24,10 @@ public class UI_OrderCell : UI_Base
 	[SerializeField]
 	Button deliveryButton;
 	
+	public Action OnCompletedOrder;
+	
+	public Action<Transform> StartRewardAnimation;
+		
 	private void Awake() {
 		deliveryButton.onClick.AddListener(OnClickDeliveryButton);
 	}
@@ -81,7 +88,14 @@ public class UI_OrderCell : UI_Base
 		var storyQuest = StoryQuestTable.Instance.GetStoryQuestByIndex(currentStoryQuestIndex);
 		
 		GameManager.Instance.Player.AddItem(storyQuest.RewardItemId, storyQuest.RewardItemAmount);
+		
+		OrderListServerData.Instance.DeleteOrder(OrderId);
 			
 		SoundManager.Instance.PlayQuestComplete();
+
+		OnCompletedOrder?.Invoke();
+		StartRewardAnimation?.Invoke(transform);
 	}
+	
+
 }

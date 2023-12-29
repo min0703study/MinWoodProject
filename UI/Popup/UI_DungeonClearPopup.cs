@@ -23,6 +23,6 @@ public class UI_DungeonClearPopup : UI_PopupBase
 	
 	public void OnClickBackButton() 
 	{
-		SceneChangeManager.Instance.LoadScene(Define.Scene.LobbyScene);
+		ClosePopupUI();
 	}
 }

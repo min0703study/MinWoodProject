@@ -33,7 +33,8 @@ public class UI_InventoryPopup : UI_PopupBase
 		
 		foreach (var item in InventoryServerData.Instance.InventoryItems) 
 		{
-			var inventoryCell = UIManager.Instance.MakeSubItem<UI_InventoryCell>(itemListGO.transform);
+			var inventoryCell = UIManager.Instance.MakeSubItem<UI_InventoryCell>();
+			inventoryCell.transform.SetParent(itemListGO.transform, false);
 			inventoryCell.SetInfo(item.ItemId, item.Amount);
 		}
 	}

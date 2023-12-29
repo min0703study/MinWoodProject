@@ -35,7 +35,7 @@ public class SwordSkill : MonoBehaviour
 
 		if (collisionData.gameObject.layer == LayerMask.NameToLayer("Monster"))
 		{
-			unit?.OnDamaged(GameManager.Instance.Player, UserServerData.Instance.AtkValue, true);
+			unit?.OnDamaged(GameManager.Instance.Player, UserServerData.Instance.AtkValue * 2, 2);
 		}
 	}
 }

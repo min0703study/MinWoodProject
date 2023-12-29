@@ -6,18 +6,22 @@ public class SceneChangeManager : BaseManager<SceneChangeManager>
 	public void LoadScene(Define.Scene loadScene, Transform parent = null)
 	{
 		CinemachineManager.Instance.Clear();
-		if(CurrentScene.SceneType != Define.Scene.IntroScene)
-		{
-			MapManager.Instance.ChangeMap();
-		}
-		
+			
 		var sceneChangePopupGO = ResourceManager.Instance.Instantiate("SceneChangePopupGroup");	
 		var sceneChangePopup = Util.GetOrAddComponent<SceneChangePopupGroup>(sceneChangePopupGO);
 		
 		DontDestroyOnLoad(sceneChangePopup);
+
 		
 		sceneChangePopup.SetInfo(() =>
 		{
+	
+			if(CurrentScene.SceneType != Define.Scene.IntroScene)
+			{
+				MapManager.Instance.ChangeMap();
+			}
+			
+		
 			PoolManager.Instance.Clear();
 			SceneManager.LoadScene(System.Enum.GetName(typeof(Define.Scene), loadScene));
 			sceneChangePopup.SceneChangedSuccess();

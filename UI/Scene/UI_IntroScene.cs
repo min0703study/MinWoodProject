@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using System;
 
 public class UI_IntroScene : UI_SceneBase
 {	
@@ -20,9 +21,11 @@ public class UI_IntroScene : UI_SceneBase
 		ResourceManager.Instance.LoadAllAsync("PreLoad", (key, count, totalCount) =>
 		{
 			loadingSlider.value = (float)count/totalCount;
-			loadingValueText.text = $"{loadingSlider.value * 100}%";
+			loadingValueText.text = $"{Math.Round(loadingSlider.value * 100)}%";
 			if (count == totalCount)
 			{
+				loadingSlider.value = 1;
+				loadingValueText.text = "100%";
 				CompleteLoading();
 			}
 		});
